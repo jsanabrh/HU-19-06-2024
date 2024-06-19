@@ -104,3 +104,12 @@ BEGIN
         VALUES (randomUserID, randomWorkspaceID, randomSessionID, randomStatus);
     END LOOP;
 END $$;
+
+/* UPDATE STATUS RESERVATION */
+
+UPDATE reservation
+SET status = 'canceled',
+    updateAt = CURRENT_TIMESTAMP  -- Actualiza el timestamp de actualización
+WHERE reservationID = 1  -- Aquí colocas el ID de la reserva que se desea cancelar
+  AND userID = 32; -- Asegura que solo el usuario que hizo la reserva pueda cancelarla
+
