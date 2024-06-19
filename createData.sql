@@ -1,3 +1,50 @@
 -- Active: 1718802621306@@bojhvhsz2fj6xlbzdsxa-postgresql.services.clever-cloud.com@50013
 
-CREATE TABLE SALA ()
+CREATE TABLE room (
+    roomID SERIAL PRIMARY KEY,
+    nameRoom VARCHAR(45) NOT NULL,
+    descriptionRoom TEXT,
+    capacity INTEGER NOT NULL,
+    rowsNumber INTEGER NOT NULL,
+    columnsNumber INTEGER NOT NULL,
+    createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE users (
+    userID SERIAL PRIMARY KEY,
+    nameUser VARCHAR(45) NOT NULL,
+    lastNameUser VARCHAR(50) NOT NULL,
+    emailUser VARCHAR(50) NOT NULL,
+    createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE workspace (
+    workspaceID SERIAL PRIMARY KEY,
+    roomID INTEGER REFERENCES room(roomID),
+    rowPosition INTEGER NOT NULL,
+    columnPosition INTEGER NOT NULL,
+    createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE session (
+    sessionID SERIAL PRIMARY KEY,
+    startHour TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    endHour TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+
+CREATE TABLE reservation (
+    reservationID SERIAL PRIMARY KEY,
+    userID INTEGER REFERENCES users(userID),
+    workspaceID INTEGER REFERENCES workspace(workspaceID),
+    sessionID INTEGER REFERENCES session(sessionID),
+    status VARCHAR(25),
+    createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updateAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+
+SELECT * FROM reservation
